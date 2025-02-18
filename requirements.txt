@@ -1,0 +1,6 @@
+pandas
+pyspark
+requests
+pandas-gbq
+google-cloud-storage
+google-cloud-bigquery
