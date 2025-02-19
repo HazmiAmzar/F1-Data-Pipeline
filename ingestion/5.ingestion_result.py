@@ -22,6 +22,9 @@ for offset in range(0, total, 100):
         # print(json.dumps(data, indent=4, ensure_ascii=False))  # Ensure special chars are preserved
         print(f"Fetched data for {url}")
 
+    else:
+        print(f"Failed to fetch data at offset {offset}: {req.status_code}")
+
 # Save JSON to GCS in a folder
 folder_name = "raw"  # Name of the folder in the bucket
 blob_name = f"{folder_name}/results.json"  # Include folder in the blob name

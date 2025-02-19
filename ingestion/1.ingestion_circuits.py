@@ -15,13 +15,16 @@ for offset in range(0, total, 100):
     url = f"{base_url}?limit={limit}&offset={offset}"
     req = requests.get(url)
     if req.status_code == 200:
-        data = req.json().get('MRData').get('CircuitTable').get('Circuits')
+        data = req.json().get('MRData', {}).get('CircuitTable', {}).get('Circuits', [])
         #print(json.dumps(data, indent=4, ensure_ascii=False))  # Ensure special chars are preserved
-        print(f"Fetched circuits data.")
+        print(f"Fetched {url} circuits data.")
 
-        # Save JSON to GCS in a folder
-        folder_name = "raw"  # Name of the folder in the bucket
-        blob_name = f"{folder_name}/circuits.json"  # Include folder in the blob name
-        blob = bucket.blob(blob_name)
-        blob.upload_from_string(json.dumps(data, indent=4, ensure_ascii=False), content_type="application/json")
-        print(f"Uploaded {blob_name} to GCS bucket {bucket_name}")
+    else:
+        print(f"Failed to fetch data at offset {offset}: {req.status_code}")
+
+# Save JSON to GCS in a folder
+folder_name = "raw"  # Name of the folder in the bucket
+blob_name = f"{folder_name}/circuits.json"  # Include folder in the blob name
+blob = bucket.blob(blob_name)
+blob.upload_from_string(json.dumps(data, indent=4, ensure_ascii=False), content_type="application/json")
+print(f"Uploaded {blob_name} to GCS bucket {bucket_name}")
