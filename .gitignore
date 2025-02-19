@@ -1,5 +1,0 @@
-venv/
-f1-de-gcp-7735b3a7392e.json
-ingestion/5.ingestion_races.py
-transform/5.transform_races.ipynb
-load/5.load_races.ipynb
